@@ -1,7 +1,7 @@
 ---
 title: "COVID-19 States Rights"
 author: "David J Jackson"
-date: "4/22/2020"
+date: "4/26/2020"
 output: html_document
 ---
 
@@ -13,6 +13,7 @@ library(RSQLite)
 library(ggeasy)
 library(plotly)
 library(patchwork)
+theme_set(theme_linedraw())
 ```
 ```{r, echo=FALSE}
 db <- dbConnect(SQLite(), dbname="../COVIDDB/CORVID.sqlite3")
@@ -34,7 +35,7 @@ summarise(Cases=sum(cases), Deaths = sum(deaths))   %>%
 WA %>% ggplot() + geom_line(aes(x=date,y=daily_cases,col="Cases by Day"),lwd=1) + 
   labs(title="Washington State: Total  Cases by Date",x="Date",y="Daily Cases") + 
   geom_vline(xintercept = as.Date("2020-03-23"),lwd=1 ) +
-  geom_text(aes(x=as.Date("2020-03-21"), label="Shutdown Order", y=800,angle=90))
+  geom_text(aes(x=as.Date("2020-03-21"), label="Shutdown Order", y=800,angle=90)) 
 
 ```  
 ```{r, echo=FALSE}
@@ -50,7 +51,7 @@ wa_state %>% ggplot() + geom_line(aes(x=date,y=cases,col="Cases"),lwd=1) +
 ### Washington State: First Death Feb. 29, 2020.
 
 ```{r, echo=FALSE}
-WA %>% ggplot() + geom_line(aes(x=date,y=daily_deaths,col="Cases by Day"),lwd=1) + 
+WA %>% ggplot() + geom_col(aes(x=date,y=daily_deaths,col="Cases by Day"),lwd=1) + 
   labs(title="Washington State: Total  Deaths by Date",x="Date",y="Daily Cases") + 
   geom_vline(xintercept = as.Date("2020-03-23"),lwd=1 ) +
   geom_text(aes(x=as.Date("2020-03-21"), label="Shutdown Order", y=30,angle=90))
@@ -77,10 +78,11 @@ summarise(Cases=sum(cases), Deaths = sum(deaths))   %>%
 ### New York State First Cases: March 1, 2020
 
 ```{r, echo=FALSE}
-NY %>% ggplot() + geom_line(aes(x=date,y=daily_cases,col="Cases by Day"),lwd=1) + 
+NY %>% ggplot() + geom_col(aes(x=date,y=daily_cases)) + 
   labs(title="New York State: Total  Cases by Date",x="Date",y="Daily Cases") + 
   geom_vline(xintercept = as.Date("2020-03-22"),lwd=1 ) +
-  geom_text(aes(x=as.Date("2020-03-21"), label="Shutdown Order", y=10000,angle=90))
+  geom_text(aes(x=as.Date("2020-03-21"), label="Shutdown Order", y=10000,angle=90)) 
+  
 
 ```  
 ```{r, echo=FALSE}

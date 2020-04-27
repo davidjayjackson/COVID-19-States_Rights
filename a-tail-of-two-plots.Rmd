@@ -1,7 +1,7 @@
 ---
 title: 'US: A Tail of Two Plots'
 author: "David J Jackson"
-date: "Apr. 22, 2020 10:05 PM/EDT"
+date: "Apr. 256 2020 4:05 PM/EDT"
 output: html_document
 ---
 

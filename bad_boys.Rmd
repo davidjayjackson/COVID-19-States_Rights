@@ -113,3 +113,23 @@ ggplot() + geom_line(data=Arkansas,aes(x=date,y=daily_deaths,col="Arkansas"),lwd
           labs(title='States with "no Shelter in Place" Order',
                y="Total Daily Deaths") 
 ```
+
+## Bad Boys Accumulated Daily Cases and Deaths
+
+```{r}
+ggplot() + geom_line(data=Arkansas,aes(x=date,y=Deaths,col="Arkansas"),lwd=1) +
+          geom_line(data=NDakota,aes(x=date,y=Deaths,col="North Dakota"),lwd=1) +
+          geom_line(data=SDakota,aes(x=date,y=Deaths,col="South Dakota"),lwd=1) +
+          geom_line(data=Iowa,aes(x=date,y=Deaths,col="Iowa"),lwd=1) +
+          labs(title='States with "no Shelter in Place" Order',
+               y="Total Daily Accumulated Deaths") 
+```
+
+```{r}
+ggplot() + geom_line(data=Arkansas,aes(x=date,y=Cases,col="Arkansas"),lwd=1) +
+          geom_line(data=NDakota,aes(x=date,y=Cases,col="North Dakota"),lwd=1) +
+          geom_line(data=SDakota,aes(x=date,y=Cases,col="South Dakota"),lwd=1) +
+          geom_line(data=Iowa,aes(x=date,y=Cases,col="Iowa"),lwd=1) +
+          labs(title='States with "no Shelter in Place" Order',
+               y=" Daily Accumulated Cases")
+```
