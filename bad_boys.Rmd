@@ -1,0 +1,115 @@
+---
+title: "Bad Boy States"
+author: "David J Jackson"
+date: "4/27/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(RSQLite)
+theme_set(theme_light())
+```
+```{r}
+rm(list=ls())
+db <- dbConnect(SQLite(), dbname="../COVIDDB/CORVID.sqlite3")
+usstates <- dbGetQuery(db, "SELECT state,date,cases,deaths FROM us_states ;")
+usstates$date <- as.Date(usstates$date)
+```
+```{r}
+# states <- usstates %>% filter(state %in% c("Arkansas",
+#                                            "North Dakota",
+#                                             "South Dakota",
+#                                            "Iowa"))
+
+
+Ak <- usstates %>% filter(state=="Arkansas")
+ND <- usstates %>% filter(state =="North Dakota")
+SD <- usstates %>% filter(state =="South Dakota")
+IW <- usstates %>% filter(state =="Iowa")
+```
+
+### Bad Boy #1 Arkansas
+
+```{r}
+Arkansas <- Ak  %>% group_by(date) %>% 
+summarise(Cases=sum(cases), Deaths = sum(deaths))   %>%
+   mutate(daily_deaths = Deaths - lag(Deaths)) %>% 
+   mutate(daily_cases = Cases -  lag(Cases)) %>%
+   mutate(DeathRate = daily_deaths/daily_cases)
+
+Arkansas %>% ggplot() + geom_line(aes(x=date,y=daily_cases)) +
+  labs(title="Arkansas Daily Cases by Date",y="Daily Cases")
+
+Arkansas %>% ggplot() + geom_line(aes(x=date,y=daily_deaths)) +
+  labs(title="Arkansas Daily Death by Date",y="Daily Deaths")
+```
+
+### Bad Boy #2: North Dakota
+
+```{r}
+NDakota <- ND  %>% group_by(date) %>% 
+summarise(Cases=sum(cases), Deaths = sum(deaths))   %>%
+   mutate(daily_deaths = Deaths - lag(Deaths)) %>% 
+   mutate(daily_cases = Cases -  lag(Cases)) %>%
+   mutate(DeathRate = daily_deaths/daily_cases)
+
+NDakota %>% ggplot() + geom_line(aes(x=date,y=daily_cases)) +
+  labs(title="North Dakota Daily Cases by Date",y="Daily Cases")
+
+Arkansas %>% ggplot() + geom_line(aes(x=date,y=daily_deaths)) +
+  labs(title="North Dakota Daily Death by Date",y="Daily Deaths")
+```
+
+### Bad Boy #2: South Dakota
+
+```{r}
+SDakota <- SD  %>% group_by(date) %>% 
+summarise(Cases=sum(cases), Deaths = sum(deaths))   %>%
+   mutate(daily_deaths = Deaths - lag(Deaths)) %>% 
+   mutate(daily_cases = Cases -  lag(Cases)) %>%
+   mutate(DeathRate = daily_deaths/daily_cases)
+
+SDakota %>% ggplot() + geom_line(aes(x=date,y=daily_cases)) +
+  labs(title="South Dakota Daily Cases by Date",y="Daily Cases")
+
+SDakota %>% ggplot() + geom_line(aes(x=date,y=daily_deaths)) +
+  labs(title="South Dakota Daily Death by Date",y="Daily Deaths")
+```
+
+### Bad Boy #4: Iowa
+
+```{r}
+Iowa <- IW  %>% group_by(date) %>% 
+summarise(Cases=sum(cases), Deaths = sum(deaths))   %>%
+   mutate(daily_deaths = Deaths - lag(Deaths)) %>% 
+   mutate(daily_cases = Cases -  lag(Cases)) %>%
+   mutate(DeathRate = daily_deaths/daily_cases)
+
+Iowa %>% ggplot() + geom_line(aes(x=date,y=daily_cases)) +
+  labs(title="Iowa Daily Cases by Date",y="Daily Cases")
+
+Iowa %>% ggplot() + geom_line(aes(x=date,y=daily_deaths)) +
+  labs(title="Iowa Daily Death by Date",y="Daily Deaths")
+```
+
+## Bad Boys Combo
+
+```{r}
+ggplot() + geom_line(data=Arkansas,aes(x=date,y=daily_cases,col="Arkansas"),lwd=1) +
+          geom_line(data=NDakota,aes(x=date,y=daily_cases,col="North Dakota"),lwd=1) +
+          geom_line(data=SDakota,aes(x=date,y=daily_cases,col="South Dakota"),lwd=1) +
+          geom_line(data=Iowa,aes(x=date,y=daily_cases,col="Iowa"),lwd=1) +
+          labs(title='States with "no Shelter in Place" Order',
+               y="Total Daily Cases")
+```
+
+```{r}
+ggplot() + geom_line(data=Arkansas,aes(x=date,y=daily_deaths,col="Arkansas"),lwd=1) +
+          geom_line(data=NDakota,aes(x=date,y=daily_deaths,col="North Dakota"),lwd=1) +
+          geom_line(data=SDakota,aes(x=date,y=daily_deaths,col="South Dakota"),lwd=1) +
+          geom_line(data=Iowa,aes(x=date,y=daily_deaths,col="Iowa"),lwd=1) +
+          labs(title='States with "no Shelter in Place" Order',
+               y="Total Daily Deaths") 
+```
