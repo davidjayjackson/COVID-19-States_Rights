@@ -164,8 +164,6 @@ ggplot() + geom_line(data=Arkansas,aes(x=date,y=daily_cases,col="Arkansas"),lwd=
 ggplot() + geom_line(data=forty_means,aes(x=date,y=mean_cases))
 ```
 
-
-
 ```{r}
 usstates %>% ggplot(aes(x=state,y=cases)) +geom_boxplot() +
    easy_rotate_x_labels(angle=90) + scale_y_log10(labels=comma) +
