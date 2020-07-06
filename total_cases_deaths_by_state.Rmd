@@ -13,8 +13,9 @@ library(scales)
 ```
 
 
-# Datea Source: New York Times
-* Github: 
+### Datea Source: New York Times
+* Github: https://github.com/nytimes/
+
 ```{r,echo=FALSE}
 rm(list=ls())
 db <- dbConnect(SQLite(), dbname="../COVIDDB/CORVID.sqlite3")
